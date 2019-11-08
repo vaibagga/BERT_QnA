@@ -616,10 +616,11 @@ def main():
             #print(colored('***********Question and Answers *************', 'red'))
           
         ques_text = example.question_text
-        print(ques_text)
+        print(ques_tioext)
         prediction = predictions[math.floor(example.unique_id/12)][example]
         print(prediction)
         print('\n')
+    ## prediction is the answer of the question 
 
    
 
