@@ -11,7 +11,6 @@ import math
 from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
                               TensorDataset)
 from tqdm import tqdm
-from termcolor import colored, cprint
 
 
 class SquadExample(object):
