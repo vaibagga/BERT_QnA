@@ -502,6 +502,7 @@ RawResult = collections.namedtuple("RawResult",
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--paragraph", default=None, type=str)
+    parser.add_argument("--question", default=None, type=str)
     parser.add_argument("--model", default=None, type=str)
     parser.add_argument("--max_seq_length", default=384, type=int)
     parser.add_argument("--doc_stride", default=128, type=int)
@@ -511,35 +512,38 @@ def main():
     
     args = parser.parse_args()
     para_file = args.paragraph
+    question_file = args.question
     model_path = args.model
-    
     device = torch.device("cpu")
     n_gpu = torch.cuda.device_count()
     
     ### Raeding paragraph
-    f = open(para_file, 'r')
-    para = f.read()
-    f.close()
+    #f = open(para_file, 'r')
+    #para = f.read()
+    #f.close()
     
     ## Reading question
 #     f = open(ques_file, 'r')
 #     ques = f.read()
 #     f.close()
     
-    para_list = para.split('\n\n')
+    #para_list = para.split('\n\n')
+    f = open(para_file, "r")
+    para = f.read()
+    f.close()
+
+    f_ = open(question_file, "r")
+    question = f_.read()
+    f_.close() 
+    paragraphs = {}
+    paragraphs["id"] = 1
+    paragraphs["text"] = para.strip("\n")
+    paragraphs["ques"] = [question.strip("\n")]
+
+    input_data = [paragraphs]
     
-    input_data = []
-    i = 1
-    for para in para_list :
-        paragraphs = {}
-        splits = para.split('\nQuestions:')
-        paragraphs['id'] = i
-        paragraphs['text'] = splits[0].replace('Paragraph:', '').strip('\n')
-        paragraphs['ques']=splits[1].lstrip('\n').split('\n')
-        input_data.append(paragraphs)
-        i+=1
-       
-    
+    print(input_data)
+
     ## input_data is a list of dictionary which has a paragraph and questions
 
     
@@ -606,14 +610,14 @@ def main():
     index = None
     for example in examples:
         if index!= example.example_id:
-            print(example.para_text)
+            #print(example.para_text)
             index = example.example_id
-            print('\n')
-            print(colored('***********Question and Answers *************', 'red'))
+            #print('\n')
+            #print(colored('***********Question and Answers *************', 'red'))
           
-        ques_text = colored(example.question_text, 'blue')
+        ques_text = example.question_text
         print(ques_text)
-        prediction = colored(predictions[math.floor(example.unique_id/12)][example], 'green', attrs=['reverse', 'blink'])
+        prediction = predictions[math.floor(example.unique_id/12)][example]
         print(prediction)
         print('\n')
 
