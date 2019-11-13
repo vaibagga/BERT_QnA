@@ -546,7 +546,6 @@ def main():
     input_data = [paragraphs]
     
     print(input_data)
-    return
     ## input_data is a list of dictionary which has a paragraph and questions
 
     
