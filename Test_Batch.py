@@ -537,11 +537,16 @@ def main():
 
     f_ = open(question_file, "r")
     question = f_.read()
+    question = question.split("\n")
+    while "" in question:
+        question.remove("")
+    for q in question:
+        q = q.strip("\n")
     f_.close() 
     paragraphs = {}
     paragraphs["id"] = 1
     paragraphs["text"] = para.strip("\n")
-    paragraphs["ques"] = [question.strip("\n")]
+    paragraphs["ques"] = question
 
     input_data = [paragraphs]
     
@@ -621,7 +626,7 @@ def main():
         print(ques_text)
         prediction = predictions[math.floor(example.unique_id/12)][example]
         print(prediction)
-        print('\n')
+        #print('\n')
     ## prediction is the answer of the question 
 
    
