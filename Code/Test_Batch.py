@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from pprint import pprint
 import argparse
 from pytorch_pretrained_bert.tokenization import (BasicTokenizer,
                                                   BertTokenizer,whitespace_tokenize)
@@ -527,8 +528,11 @@ def main():
 #     f.close()
     
     #para_list = para.split('\n\n')
-    f = open(para_file, "r")
+    f = open(para_file, "rb")
     para = f.read()
+    para = para.decode('windows-1252')
+    para = para.strip("\n").replace("\n", " ").replace("\r", "")
+    print(para)
     f.close()
 
     f_ = open(question_file, "r")
@@ -542,7 +546,7 @@ def main():
     input_data = [paragraphs]
     
     print(input_data)
-
+    return
     ## input_data is a list of dictionary which has a paragraph and questions
 
     
