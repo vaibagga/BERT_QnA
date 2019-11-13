@@ -532,7 +532,7 @@ def main():
     para = f.read()
     para = para.decode('windows-1252')
     para = para.strip("\n").replace("\n", " ").replace("\r", "")
-    print(para)
+    #print(para)
     f.close()
 
     f_ = open(question_file, "r")
@@ -545,7 +545,7 @@ def main():
 
     input_data = [paragraphs]
     
-    print(input_data)
+    #print(input_data)
     ## input_data is a list of dictionary which has a paragraph and questions
 
     
