@@ -13,6 +13,7 @@ from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
                               TensorDataset)
 from tqdm import tqdm
 
+from parafinder import ParaFinder
 
 class SquadExample(object):
     """
@@ -531,7 +532,7 @@ def main():
     f = open(para_file, "rb")
     para = f.read()
     para = para.decode('windows-1252')
-    para = para.strip("\n").replace("\n", " ").replace("\r", "")
+    para = para.strip("\n").replace("\r", "")
     #print(para)
     f.close()
 
@@ -542,15 +543,18 @@ def main():
         question.remove("")
     for q in question:
         q = q.strip("\n")
-    f_.close() 
-    paragraphs = {}
-    paragraphs["id"] = 1
-    paragraphs["text"] = para.strip("\n")
-    paragraphs["ques"] = question
-
-    input_data = [paragraphs]
+    f_.close()
+    input_data = []
+    pfinder = ParaFinder(para)
+    for q in question:
+        closest_para = pfinder.closestParagraph(q)
+        paragraphs = {}
+        paragraphs["id"] = 1
+        paragraphs["text"] = closest_para
+        paragraphs["ques"] = [q]
+        input_data.append(paragraphs)
     
-    #print(input_data)
+    print(input_data)
     ## input_data is a list of dictionary which has a paragraph and questions
 
     
