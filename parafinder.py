@@ -2,16 +2,18 @@ import re
 import numpy as np
 
 from sklearn.preprocessing import normalize
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 import nltk
 nltk.download('stopwords') 
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer 
 
+
+
 class ParaFinder():
     def __init__(self, text):
-        self.vectorizer = CountVectorizer()
+        self.vectorizer = TfidfVectorizer()
         self.paragraphs = []
         self.paragraph_clean = []
         for para in text.split("\n"):
@@ -25,12 +27,10 @@ class ParaFinder():
             self.paragraph_clean.append(para)
         self.vectorizer.fit(self.paragraph_clean)
         self.para_vectors = self.vectorizer.transform(self.paragraph_clean).toarray()
-        self.para_vectors = normalize(self.para_vectors, axis = 1)
 
-
-    def closestParagraph(self, question):
+    def closestParagraphIndex(self, question):
         question = re.sub('[^a-zA-Z]', ' ', question)  
-        question = question.lower()  
+        question = question.lower()
         question = question.split()  
         ps = PorterStemmer()     
         question = [ps.stem(word) for word in question if not word in set(stopwords.words('english'))]  
@@ -38,8 +38,12 @@ class ParaFinder():
         #print(self.para_vectors)
         question_vector = self.vectorizer.transform([question])
         #print(question_vector.toarray())
-        similarity = np.dot(self.para_vectors, question_vector.toarray().T)
-        return self.paragraphs[np.argmax(similarity)]
+        similarity = np.dot(self.para_vectors, question_vector.toarray().T).ravel()
+        return np.argsort(similarity)[::-1][:min(5,len(similarity))]
+
+
+    def closestParagraph(self, question):
+        return ''.join([self.paragraphs[i] for i in self.closestParagraphIndex(question)])
 
 
 
