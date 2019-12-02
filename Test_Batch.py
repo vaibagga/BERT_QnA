@@ -11,7 +11,7 @@ from pytorch_pretrained_bert.modeling import BertForQuestionAnswering, BertConfi
 import math
 from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
                               TensorDataset)
-from tqdm import tqdm
+#from tqdm import tqdm
 
 from parafinder import ParaFinder
 
@@ -515,7 +515,7 @@ def main():
     para_file = args.paragraph
     question_file = args.question
     model_path = args.model
-    device = torch.device("cpu")
+    device = torch.device("cuda")
     n_gpu = torch.cuda.device_count()
     
     ### Raeding paragraph
@@ -532,7 +532,8 @@ def main():
     f = open(para_file, "rb")
     para = f.read()
     para = para.decode('windows-1252')
-    para = para.strip("\n").replace("\r", "")
+    para = para.strip("\n").replace("\r", "").replace("\n", "")
+
     #print(para)
     f.close()
 
@@ -554,7 +555,7 @@ def main():
         paragraphs["ques"] = [q]
         input_data.append(paragraphs)
     
-    print(input_data)
+    #print(input_data)
     ## input_data is a list of dictionary which has a paragraph and questions
 
     
@@ -589,7 +590,7 @@ def main():
     pred_dataloader = DataLoader(pred_data, sampler=pred_sampler, batch_size=9)
     
     predictions = []
-    for input_ids, input_mask, segment_ids, example_indices in tqdm(pred_dataloader):
+    for input_ids, input_mask, segment_ids, example_indices in pred_dataloader:
         input_ids = input_ids.to(device)
         input_mask = input_mask.to(device)
         segment_ids = segment_ids.to(device)

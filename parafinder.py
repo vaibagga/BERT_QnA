@@ -5,7 +5,7 @@ from sklearn.preprocessing import normalize
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 import nltk
-nltk.download('stopwords') 
+#nltk.download('stopwords') 
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer 
 

@@ -1,6 +1,7 @@
 import urllib.request
 from bs4 import BeautifulSoup
-
+import warnings
+warnings.filterwarnings("ignore")
 
 class WebScraper():
     def __init__(self, url):
