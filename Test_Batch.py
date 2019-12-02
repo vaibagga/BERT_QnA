@@ -515,7 +515,7 @@ def main():
     para_file = args.paragraph
     question_file = args.question
     model_path = args.model
-    device = torch.device("cuda")
+    device = torch.device("cpu")
     n_gpu = torch.cuda.device_count()
     
     ### Raeding paragraph
