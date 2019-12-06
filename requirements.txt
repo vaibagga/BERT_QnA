@@ -1,4 +1,52 @@
-pytorch-pretrained-bert
-scikit-learn
-nltk
-numpy
+Removing Unwanted Characters
+
+The is a primary step in the process of text cleaning. If we scrap some text from HTML/XML sources, we’ll need to get rid of all the tags, HTML entities, punctuation, non-alphabets, and any other kind of characters which might not be a part of the language. The general methods of such cleaning involve regular expressions, which can be used to filter out most of the unwanted texts.
+
+There are some systems where important English characters like the full-stops, question-marks, exclamation symbols, etc are retained. Consider an example where you want to perform some sentiment analysis on human generated tweets, and you want to classify the tweets are very angry, angry, neutral, happy, and very happy. Simple sentiment analysis might find it hard to differentiate between a happy, and a very happy sentiment, because there can be some moments only words are not able to explain.
+
+Consider the two sentences with the same semantic meaning:
+
+“This food is good.”, and “This. Food. Is. Good!!!!!!!!”.
+
+See what I’m trying to say? Same words, but totally different sentiments, and the only information which can help us to see the different is the overused punctuation, which shows some sort of an “extra” feeling.
+
+Emoticons, which are made up of non-alphabets also play a role in sentiment analysis. “:), :(, -_-, :D, xD”, all these, when processed correctly, can help with a better sentiment analysis. Even if you want to develop a system that may classify whether some phrase is sarcasm, or not sarcasm, such little details can be helpful.
+
+Apostrophe is one important punctuation character, which needs to be dealt carefully, because a lot of text can be based on apostrophes. Terms like “aren’t, shouldn’t, didn’t, would’ve, mightn’t’ve, y’all’d’ve” are infiltrating the online documents just like a disease, and luckily, we do have a cure for that as well. Here is a nice dictionary of all these word contractions, which you can always use to convert words involving apostrophes into formal English terms, separated by a space.
+Encoding in the Proper Format
+
+Various kinds of data encodings are available, like the UTF-8 encoding, Latin encoding, ISO/IEC encodings, etc. UTF-8 is one of the most common encodings most computers use, so it’s always a good idea to convert text into the UTF-8 encoding. But, you can also encode in other formats, depending on the application, and your programming environment.
+Tokenization and Capitalization/De-capitalization
+
+Tokenization is just the process of splitting a sentence into words.
+Tokenization of a sentence
+
+You might’ve realized that the above example doesn’t only tokenize the sentence, but also makes sure that all the words are lowercase. This example not only divides the individual entities, but also gets rid of the capitalism involved (no pun intended). Capitalization and De-capitalization is again, dependent on what the application is going to be. If we’re only concerned with the terms, and not their “intensities of presence”, then all the terms with lowercase should do fine, but if we want to differentiate between any sentiments, then something written in uppercase might mean something different than something written in lowercase. See the below example:
+
+“Let’s go to the highlands!”
+
+“LET’S GO TO THE HIGHLANDS!”
+
+Again, the latter shows way more amount of enthusiasm that the first first sentence.
+Removing/Retaining Stopwords
+
+This cleaning step also depends on what you’ll eventually be doing with your data after preprocessing. Stopwords are the words which are used very frequently, and they’re so frequent, that they somewhat lose their semantic meaning. Words like “of, are, the, it, is” are some examples of stopwords. In applications like document search engines and document classification, where keywords are more important than general terms, removing stopwords can be a good idea, but if there’s some application about, for instance, songs lyrics search, or search specific quotes, stopwords can be important. Consider some examples like “To be, or not not be”, “Look what you made me do” etc. Stopwords in such phrases actually play an important role, and hence, should not be dropped.
+
+There are two common approaches of removing the stopwords, and both are fairly straightforward. One way is to count all the word occurrences, and providing a threshold value on the count, and getting rid of all the terms/words occurring more than the specified threshold value. The other way is to have a predetermined list of stopwords, which can be removed from the list of tokens/tokenized sentences.
+
+Some human expressions, like “hahaha, lol, lmfao, brb, wtf” can also be a valuable information when working on systems based on semantic/sentiment analysis, but for the systems requiring a more formal kind of an application, these expressions might also get removed.
+Breaking the Attached Words
+
+Text data can contain words joined together with no space between them. Most of the hashtags on social media are put up like “#AwesomeDay, #DataScientist, #BloggingIsPassion”, etc. Jeez. Such terms also need to be taken care of, and a straightforward way is to split these terms based on the capital letters, and this is possible if we had retained the capitalization. If we don’t want to retain capitalization, then this step should be performed during the tokenization step, right before making everything lowercase.
+Lemmatizing/Stemming
+
+“ The goal of both stemming and lemmatization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form.” With that being said, stemming/lemmatizing helps us reduce the number of overall terms to certain “root” terms.
+
+Organizer, organizes, organization, organized all these get reduced to a root term, maybe “organiz”.
+
+Stemming is a crude way of reducing terms to their root, by just defining rules of chopping off some characters at the end of the word, and hopefully, gets good results most of the time.
+Examples of stemming
+
+Lemmatization is comparatively a more systematic approach of doing the same thing which stemming does, but involves some vocabulary, and morphological analysis.
+
+Once again, the process of stemming and lemmatization should be performed only when required, because affixes of words contain additional information, which can be utilized. For example, “faster” and “fastest” have the same root, but their semantic meaning is different than each other. So, if your application only relates to the term only, as most search engines, and document clustering systems do, then stemming/lemmatization might be an option, but for the applications which need to consider some semantic analysis, stemming and lemmatization might be dropped.
