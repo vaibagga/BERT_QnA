@@ -516,8 +516,7 @@ def main():
     question_file = args.question
     model_path = args.model
     device = torch.device("cuda")
-    n_gpu = torch.cuda.device_count()
-    
+
     ### Raeding paragraph
     #f = open(para_file, 'r')
     #para = f.read()
@@ -547,12 +546,14 @@ def main():
     f_.close()
     input_data = []
     pfinder = ParaFinder(para)
+    i = 0
     for q in question:
         closest_para = pfinder.closestParagraph(q)
         paragraphs = {}
-        paragraphs["id"] = 1
+        paragraphs["id"] = i
         paragraphs["text"] = closest_para
         paragraphs["ques"] = [q]
+        i+=1
         input_data.append(paragraphs)
     
     #print(input_data)
