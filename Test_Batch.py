@@ -531,7 +531,8 @@ def main():
     f = open(para_file, "rb")
     para = f.read()
     para = para.decode('windows-1252')
-    para = para.strip("\n").replace("\r", "").replace("\n", "")
+    para = para.strip("\n").replace("\r", " ").replace("\n", "")
+    print(para)
 
     #print(para)
     f.close()
