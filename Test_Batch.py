@@ -595,7 +595,7 @@ def main():
         ques_text = example.question_text
         print(ques_text)
         prediction, prob = predictions[math.floor(example.unique_id / 12)][example]
-        if prob > 0.5:
+        if prob > 0.3:
             print(prediction)
         else:
             print("No result found")
