@@ -439,7 +439,7 @@ def predict(examples, all_features, all_results, max_answer_length):
 
         if not nbest:
             nbest.append(
-                _NbestPrediction(text="empty", start_logit=0.0, end_logit=0.0))
+                _NbestPrediction(text="No result found", start_logit=0.0, end_logit=0.0))
 
         assert len(nbest) >= 1
 
@@ -597,6 +597,7 @@ def main():
         prediction, prob = predictions[math.floor(example.unique_id / 12)][example]
         if prob > 0.35:
             print(prediction)
+            #print(type(prediction))
         else:
             print("No result found")
         # print('\n')
