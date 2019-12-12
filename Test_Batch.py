@@ -14,7 +14,7 @@ from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
 # from tqdm import tqdm
 
 from parafinder import ParaFinder
-
+torch.manual_seed(123)
 
 class SquadExample(object):
     """
